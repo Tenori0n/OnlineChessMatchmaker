@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>609-22</title>
+</head>
+<body>
+@if ($user)
+    <div>
+        @if (file_exists(public_path("avatars/$user->id/$user->name.jpg")))
+            <img src="{{ asset("avatars/$user->id/$user->name.jpg") }}" height="250" width="250">
+        @else
+            <img src="{{ asset("avatars/default.png") }}" height="250" width="250">
+        @endif
+    </div>
+    <h2>{{$user->name}}</h2>
+    <p><a href="edit/{{$user->id}}">Изменить данные</a></p>
+    <p>Количество сыгранных игр: {{$user->gamesPlayed}}</p>
+    <p>Количество выигранных игр: {{$user->gamesWon}}</p>
+    <p>ЭЛО: {{$user->elo}}</p>
+    <h2>Последние сыгранные матчи:</h2>
+    <table border="1">
+        <thead>
+        <td>id</td>
+        <td>Название матча</td>
+        <td>Имя победителя</td>
+        </thead>
+    @foreach($matches as $match)
+        @if ($match->white_ID == $user->id || $match->black_ID == $user->id)
+                <tr>
+                    <td>{{$match->id}}</td>
+                    <td><a href="/match/{{$match->id}}">{{$match->whiteUser->name}} против {{$match->blackUser->name}}</a></td>
+                    @if($match->winnerColor)
+                        <td><a href="/user/{{$match->blackUser->id}}">{{$match->blackUser->name}}</a></td>
+                    @else
+                        <td><a href="/user/{{$match->whiteUser->id}}">{{$match->whiteUser->name}}</a></td>
+                    @endif
+                </tr>
+            @endif
+    @endforeach
+@else
+    <p>К сожалению, такого пользователя не существует</p>
+@endif
+</body>
