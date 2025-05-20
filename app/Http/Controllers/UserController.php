@@ -6,6 +6,7 @@ use App\Models\ChessMatch;
 use App\Models\User;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\password;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 2;
+        $perpage = $request->perpage ?? 10;
         return view('users', [
             'users' => User::paginate($perpage)->withQueryString()
             ]);
@@ -60,6 +61,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        if (!Gate::allows('admin-and-self-only-action', User::all()->where('id', $id)->first()))
+        {
+            return redirect('/error')->with('message', "Для выполнения этого действия нужно быть владельцем аккаунта или иметь права администратора");
+        }
         return view('user_edit',[
             'user' => User::all()->where('id', $id)->first()
         ]);
@@ -87,6 +92,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        if (!Gate::allows('admin-only-action', User::all()->where('id', $id)->first()))
+        {
+            return redirect('/error')->with('message', "Для выполнения этого действия необходимы права администратора");
+        }
         User::destroy($id);
         return redirect('/users');
     }

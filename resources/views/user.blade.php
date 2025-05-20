@@ -14,7 +14,15 @@
         @endif
     </div>
     <h2>{{$user->name}}</h2>
-    <p><a href="edit/{{$user->id}}">Изменить данные</a></p>
+    @if (Auth::user() and (Auth::id() == $user->id or Auth::user()->is_admin))
+        <p><a href="{{$user->id}}/edit">Изменить данные</a></p>
+    @endif
+    @if (Auth::user() and (Auth::user()->is_admin and !$user->is_admin))
+        <p><a href="destroy/{{$user->id}}">Удалить пользователя</a></p>
+    @endif
+    @if (Auth::user() and (Auth::id() == $user->id))
+        <a href="{{url('logout')}}">Выход</a>
+    @endif
     <p>Количество сыгранных игр: {{$user->gamesPlayed}}</p>
     <p>Количество выигранных игр: {{$user->gamesWon}}</p>
     <p>ЭЛО: {{$user->elo}}</p>

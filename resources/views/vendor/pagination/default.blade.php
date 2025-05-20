@@ -46,11 +46,11 @@
 
 @endif
 <p>Элементов на странице:</p>
-<form method="get" action="{{url('match')}}">
+<form method="get" action="{{$paginator->previousPageUrl()}}">
     <select name="perpage">
-        <option value="1" @if($paginator->perPage() == 1) selected @endif>1</option>
-        <option value="2" @if($paginator->perPage() == 2) selected @endif>2</option>
-        <option value="3" @if($paginator->perPage() == 3) selected @endif>3</option>
+        <option value="5" @if($paginator->perPage() == 5) selected @endif>5</option>
+        <option value="10" @if($paginator->perPage() == 10) selected @endif>10</option>
+        <option value="15" @if($paginator->perPage() == 15) selected @endif>15</option>
     </select>
     <input type="submit" value="Изменить">
 </form>

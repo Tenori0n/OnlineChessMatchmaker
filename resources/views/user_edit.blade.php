@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    .is_error {color: red;}
+</style>
 <head>
     <meta charset="UTF-8">
     <title>609-22</title>
@@ -12,17 +15,16 @@
     <br>
     <input type="text" name="name" value="@if (old('name')) {{old('name')}} @else {{$user->name}} @endif"/>
     @error('name')
-    <div>{{$message}}</div>
+    <div class="is_error">{{$message}}</div>
     @enderror
     <br>
     <label>Изменить пароль</label>
     <br>
     <input type="text" name="password" value=""/>
     @error('password')
-    <div>{{$message}}</div>
+    <div class="is_error">{{$message}}</div>
     @enderror
     <br>
-    <label>Аватар</label>
     <input type="submit"/>
 </form>
 </body>
