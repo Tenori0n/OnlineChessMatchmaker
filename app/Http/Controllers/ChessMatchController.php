@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ChessMatch;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Match_;
 
 class ChessMatchController extends Controller
 {
@@ -12,7 +13,7 @@ class ChessMatchController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpage ?? 2;
+        $perpage = $request->perpage ?? 10;
         return view('matches', [
            'matches' => ChessMatch::paginate($perpage)->withQueryString()
         ]);
@@ -65,6 +66,11 @@ class ChessMatchController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (!Gate::allows('admin-only-action', ChessMatch::all()->where('id', $id)->first()))
+        {
+            return redirect('/error')->with('message', "Для выполнения этого действия необходимы права администратора");
+        }
+        User::destroy($id);
+        return redirect('/users')->withErrors(['success' => 'Матч был удален',]);
     }
 }

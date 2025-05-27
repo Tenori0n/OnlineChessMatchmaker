@@ -14,6 +14,8 @@ Route::get('/match', [\App\Http\Controllers\ChessMatchController::class, 'index'
 
 Route::get('/match/{id}', [\App\Http\Controllers\ChessMatchController::class, 'show']);
 
+Route::get('/match/destroy/{id}', [\App\Http\Controllers\ChessMatchController::class, 'show']);
+
 Route::get('/turns', [\App\Http\Controllers\TurnController::class, 'index']);
 
 Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);

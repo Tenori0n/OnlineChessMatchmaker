@@ -97,6 +97,6 @@ class UserController extends Controller
             return redirect('/error')->with('message', "Для выполнения этого действия необходимы права администратора");
         }
         User::destroy($id);
-        return redirect('/users');
+        return redirect('/users')->withErrors(['success' => 'Пользователь был удален',]);
     }
 }

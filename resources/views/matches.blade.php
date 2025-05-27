@@ -5,25 +5,30 @@
     <title>609-22</title>
 </head>
 <body>
-<h2>Список партий:</h2>
-<table border="1">
-    <thead>
-        <td>id</td>
+@extends('layout')
+@section('content')
+    <p class="text-center h1 fw-bold mb-3 mx-1 mx-md-4 mt-4 text-light">Список партий:</p>
+    <div class="w-100 d-flex flex-column align-items-center">
+<table class="table table-dark w-75">
+    <thead class="text-center">
+        <td class="h-auto">id</td>
         <td>Название матча</td>
         <td>Имя победителя</td>
     </thead>
     @foreach($matches as $match)
-        <tr>
-            <td>{{$match->id}}</td>
-            <td><a href="/match/{{$match->id}}">{{$match->whiteUser->name}} против {{$match->blackUser->name}}</a></td>
+        <tr class="text-center">
+            <td>{{$match->id}} @if(Auth::user() and Auth::user()->is_admin) <a class="link-danger" style="text-decoration: none;" href="/match/destroy/{{$match->id}}" @endif>(Удалить)</a></td>
+            <td><a class="link-light" style="text-decoration: none; font-weight: bold;" href="/match/{{$match->id}}">{{$match->whiteUser->name}} против {{$match->blackUser->name}}</a></td>
             @if($match->winnerColor)
-                <td><a href="/user/{{$match->blackUser->id}}">{{$match->blackUser->name}}</a></td>
+                <td><a class="link-light" style="text-decoration: none; font-weight: bold;" href="/user/{{$match->blackUser->id}}">{{$match->blackUser->name}}</a></td>
             @else
-                <td><a href="/user/{{$match->whiteUser->id}}">{{$match->whiteUser->name}}</a></td>
+                <td><a class="link-light" style="text-decoration: none; font-weight: bold;" href="/user/{{$match->whiteUser->id}}">{{$match->whiteUser->name}}</a></td>
             @endif
         </tr>
     @endforeach
 </table>
 {{$matches->links()}}
+    </div>
+@endsection
 </body>
 </html>
