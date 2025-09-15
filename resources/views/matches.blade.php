@@ -17,7 +17,7 @@
     </thead>
     @foreach($matches as $match)
         <tr class="text-center">
-            <td>{{$match->id}} @if(Auth::user() and Auth::user()->is_admin) <a class="link-danger" style="text-decoration: none;" href="/match/destroy/{{$match->id}}" @endif>(Удалить)</a></td>
+            <td>{{$match->id}} @if(Auth::user() and Auth::user()->is_admin) <a class="link-danger" style="text-decoration: none;" href="/match/destroy/{{$match->id}}">(Удалить)</a>@endif</td>
             <td><a class="link-light" style="text-decoration: none; font-weight: bold;" href="/match/{{$match->id}}">{{$match->whiteUser->name}} против {{$match->blackUser->name}}</a></td>
             @if($match->winnerColor)
                 <td><a class="link-light" style="text-decoration: none; font-weight: bold;" href="/user/{{$match->blackUser->id}}">{{$match->blackUser->name}}</a></td>
