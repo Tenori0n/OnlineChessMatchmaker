@@ -10,11 +10,15 @@ class TurnControllerApi extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $id)
     {
-        return response(Turn::all());
+        return response(Turn::where('match_ID', $id)->limit($request->perpage ?? 20)->offset(($request->perpage ?? 20) * ($request->page ?? 0))->get());
     }
 
+    public function total($id)
+    {
+        return response(Turn::where('match_ID', $id)->count());
+    }
     /**
      * Store a newly created resource in storage.
      */
