@@ -12,9 +12,8 @@ class ChessMatchControllerApi extends Controller
      */
     public function index(Request $request)
     {
-        return response(ChessMatch::limit($request->perpage ?? 10)->offset(($request->perpage ?? 10) * ($request->page ?? 0))->get());
+        return response(ChessMatch::orderBy('id', 'asc')->limit($request->perpage ?? 10)->offset(($request->perpage ?? 10) * ($request->page ?? 0))->get());
     }
-
     public function total()
     {
         return response(ChessMatch::all()->count());
@@ -49,5 +48,9 @@ class ChessMatchControllerApi extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function by_id($id)
+    {
+        return response(ChessMatch::orderBy('id', 'desc')->where('black_ID', $id)->orWhere('white_ID', $id)->limit(5)->get());
     }
 }

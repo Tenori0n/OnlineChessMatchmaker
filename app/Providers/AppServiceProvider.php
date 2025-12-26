@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         {
            return ($user->is_admin or $user->id == $target->id);
         });
+        Gate::define('create-user', function () {return true;});
     }
 }
